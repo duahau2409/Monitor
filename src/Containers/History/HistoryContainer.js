@@ -1,44 +1,13 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-const tables = [
-    {
-        status: "Tắt",
-        time: "10:49:02 05/07/2022",
-        reason: "Lorem ipsum....",
-    },
-    {
-        status: "Bật",
-        time: "10:49:02 05/07/2022",
-        reason: "Lorem ipsum....",
+import Circle from '@/Components/Cricle'
+import { useHistoryQuery } from '@/Services/modules/Maket'
+import { useState } from 'react'
+import { convertDate, convertTime } from '@/Util'
 
-    },
-    {
-        status: "Tắt",
-        time: "10:49:02 05/07/2022",
-        reason: "Lorem ipsum....",
-    },
-    {
-        status: "Bật",
-        time: "10:49:02 05/07/2022",
-        reason: "Lorem ipsum....",
-    },
-    {
-        status: "Tắt",
-        time: "10:49:02 05/07/2022",
-        reason: "Lorem ipsum....",
-    },
-    {
-        status: "Tắt",
-        time: "10:49:02 05/07/2022",
-        reason: "Lorem ipsum....",
-    },
-    {
-        status: "Tắt",
-        time: "10:49:02 05/07/2022",
-        reason: "Lorem ipsum....",
-    }
-]
 const HistoryContainer = () => {
+    const { data: datas } = useHistoryQuery({})
+    const [page] = useState(0)
     return (
 
         <View>
@@ -52,30 +21,56 @@ const HistoryContainer = () => {
                 borderWidth: 1,
                 borderColor: '#1B1B1B'
             }}>
-                <Text style={{fontWeight: '500', fontSize: 12, lineHeight: 14.52, color:'#000'}}>Trạng thái</Text>
-                <Text style={{ paddingLeft: 33,fontWeight: '500', fontSize: 12, lineHeight: 14.52, color:'#000' }}>Thời gian</Text>
-                <Text style={{ paddingLeft: 89,fontWeight: '500', fontSize: 12, lineHeight: 14.52, color:'#000' }}>Lí do</Text>
+                <Text style={{ fontWeight: '500', fontSize: 12, lineHeight: 14.52, color: '#000' }}>Trạng thái</Text>
+                <Text style={{ paddingLeft: 33, fontWeight: '500', fontSize: 12, lineHeight: 14.52, color: '#000' }}>Thời gian</Text>
+                <Text style={{ paddingLeft: 101, fontWeight: '500', fontSize: 12, lineHeight: 14.52, color: '#000' }}>Lí do</Text>
             </View>
-            {
-                tables.map((table, index) => (
-                    <View
-                        style={{
-                            padding: 14,
-                            width: '100%',
+            <ScrollView showsVerticalScrollIndicator={false} style={{ marginBottom: 25 }}>
+                {datas && datas.data.map((data, index) => {
+                    return (
+                        <View style={{
                             flexDirection: 'row',
+                            justifyContent: 'center',
+                            paddingVertical: 14,
                             borderWidth: 1,
                             borderColor: '#D9D9D9',
-                            
-                        }}
-                        key={index}
-                    >
-                        <Text style={{fontWeight: '500', fontSize: 12, lineHeight: 14.52, color:'#000'}}>{table.status}</Text>
-                        <Text style={{ paddingLeft: 62,fontWeight: '500', fontSize: 12, lineHeight: 14.52, color:'#000' }}>{table.time}</Text>
-                        <Text style={{ paddingLeft: 19,fontWeight: '500', fontSize: 12, lineHeight: 14.52, color:'#000' }}>{table.reason}</Text>
-                    </View>
-                )
-                )
-            }
+                        }} key={index}>
+                            <View style={{
+                                flex: 1,
+                                flexDirection: 'row',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}>
+                                <Circle status={data.turnOn} colorActive='#D31515' />
+                                <Text>{data.turnOn ? 'Bật' : 'Tắt'}</Text>
+                            </View>
+                            <View style={{
+                                flex: 2,
+                                paddingLeft: 10,
+                                justifyContent: 'center',
+                                paddingLeft: 30,
+
+                            }}>
+                                <Text>{convertTime(data.createdAt) + ' ' + convertDate(data.createdAt)}</Text>
+                            </View>
+                            <View style={{
+                                flex: 2,
+                                paddingLeft: 10,
+                                width: 70,
+                                height: 22,
+                            }}>
+                                <Text style={{
+                                }}>{data.reason}
+                                </Text>
+                                <Text style={{
+                                    position: 'absolute',
+                                    right: 25
+                                }}>....</Text>
+                            </View>
+                        </View>
+                    )
+                })}
+            </ScrollView>
         </View>
     )
 }

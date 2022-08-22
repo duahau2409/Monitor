@@ -5,13 +5,13 @@ import { useTheme } from '@/Hooks';
 function MyTabBar({ state, descriptors, navigation }) {
   const { Images } = useTheme()
   return (
-    <View style={{ 
-    flexDirection: 'row', 
-    backgroundColor: '#1B1B1B', 
-    height: 66,
-    width: '100%',
-    justifyContent: 'center',
-    alignItems:'center',
+    <View style={{
+      flexDirection: 'row',
+      backgroundColor: '#1B1B1B',
+      height: 66,
+      width: '100%',
+      justifyContent: 'center',
+      alignItems: 'center',
     }}>
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
@@ -19,8 +19,8 @@ function MyTabBar({ state, descriptors, navigation }) {
           options.tabBarLabel !== undefined
             ? options.tabBarLabel
             : options.title !== undefined
-            ? options.title
-            : route.name;
+              ? options.title
+              : route.name;
 
         const isFocused = state.index === index;
 
@@ -52,11 +52,24 @@ function MyTabBar({ state, descriptors, navigation }) {
             testID={options.tabBarTestID}
             onPress={onPress}
             onLongPress={onLongPress}
-            style={{ flex: 1 , justifyContent: 'center', alignItems: 'center'}}
-            key = {index}
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: 66,
+              width: 66,
+              borderRadius: 4,
+              backgroundColor: isFocused ? "#858585" : "#1B1B1B"
+            }}
+            key={index}
           >
-            <Image source={Images[route.name]} resizeMode = 'contain' />
-            <Text style={{ color: isFocused ? '#673ab7' : '#222' }}>
+            <Image source={Images[route.name]} resizeMode='contain' />
+            <Text 
+            style={{ 
+              color: isFocused ? '#fff' : '#fff',
+              fontSize: 14,
+              marginTop: 5  
+              }}>
               {label}
             </Text>
           </TouchableOpacity>

@@ -4,8 +4,11 @@ import Graph from '@/Components/Graph'
 import { VictoryAxis, VictoryBar, VictoryChart, VictoryHistogram, VictoryStack, VictoryTheme } from 'victory-native';
 import { VictoryLine } from 'victory-native'
 import Charts from '@/Components/Charts'
+import { convertDate, format2degit } from '@/Util';
+import { useSelector } from 'react-redux';
 
-const MaketContainerPlayGraph = ({ ticksSize }) => {
+const MaketContainerPlayGraph = () => {
+    const date = useSelector(state => state.market.date)
 
     const data = [
         { x: -4, y: 0 },
@@ -63,11 +66,10 @@ const MaketContainerPlayGraph = ({ ticksSize }) => {
     ];
 
     const tickFormatX = (x) => {
-        if (x % 5 === 0) {
-            return x;
-        }
+        return x % 5 === 0 ? format2degit(x) + ` (${convertDate(date).slice(0, 5)})` : ''
     }
-    const styles = getStyles(ticksSize)
+
+    const ticksSize = ({ tick }) => (tick % 5 === 0 ? 4 : 0)
     return (
         <View style={{ position: 'absolute', height: '100%', width: '100%' }}>
             <Graph >
@@ -127,8 +129,8 @@ const MaketContainerPlayGraph = ({ ticksSize }) => {
                     theme={VictoryTheme.material}
                 >
                     <VictoryAxis
-                        tickValues={[1, 2, 3, 4, 5]}
-                        tickFormat={["00 (05/07)", "05 (05/07)", "10 (05/07)", "15 (05/07)", "20 (05/07)"]}
+                        tickValues={[-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]}
+                        tickFormat={tickFormatX}
                         style={[styles.axisYears]}
 
                     />

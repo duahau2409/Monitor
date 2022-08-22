@@ -67,7 +67,7 @@ const MainNavigator = () => {
             tabBarLabelPosition: 'beside-icon',
           }}
         />
-        <Tab.Screen
+        {/* <Tab.Screen
           name="LogIn"
           component={LogIn}
           options={{
@@ -82,7 +82,7 @@ const MainNavigator = () => {
             tabBarIconStyle: { display: 'none' },
             tabBarLabelPosition: 'beside-icon',
           }}
-        />
+        /> */}
       </Tab.Navigator>
     </View>
 

@@ -22,7 +22,7 @@ const ApplicationNavigator = () => {
         <StatusBar barStyle={darkMode ? 'light-content' : 'dark-content'} 
         backgroundColor={colors.card}/>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Welcome" component={Welcome} />
+        <Stack.Screen name="Welcome" component={Welcome} />
           <Stack.Screen name="LogIn" component={LogIn} />
           <Stack.Screen
             name="Main"
