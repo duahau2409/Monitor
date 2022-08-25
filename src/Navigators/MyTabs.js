@@ -8,8 +8,10 @@ function MyTabBar({ state, descriptors, navigation }) {
     <View style={{
       flexDirection: 'row',
       backgroundColor: '#1B1B1B',
-      height: 66,
-      width: '100%',
+      paddingRight: 10,
+      paddingLeft: 10,
+      paddingTop: 4,
+      paddingBottom: 4,
       justifyContent: 'center',
       alignItems: 'center',
     }}>
@@ -56,8 +58,8 @@ function MyTabBar({ state, descriptors, navigation }) {
               flex: 1,
               justifyContent: 'center',
               alignItems: 'center',
-              height: 66,
-              width: 66,
+              height: 59,
+              width: 59,
               borderRadius: 4,
               backgroundColor: isFocused ? "#858585" : "#1B1B1B"
             }}

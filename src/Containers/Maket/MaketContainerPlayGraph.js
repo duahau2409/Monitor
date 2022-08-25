@@ -8,24 +8,7 @@ import { convertDate, format2degit } from '@/Util';
 import { useSelector } from 'react-redux';
 
 const MaketContainerPlayGraph = () => {
-    const date = useSelector(state => state.market.date)
-
-    const data = [
-        { x: -4, y: 0 },
-        { x: 0, y: 37 },
-        { x: 1, y: 26 },
-        { x: 2, y: 7 },
-        { x: 3, y: 13 },
-        { x: 4, y: 21 },
-        { x: 5, y: 27 },
-        { x: 6, y: 11 },
-        { x: 10, y: 0 },
-        { x: 15, y: 0 },
-        { x: 20, y: 0 },
-        { x: 24, y: 0 },
-
-
-    ];
+    const date = useSelector(state => state.maket.date)
     const data2012 = [
         { quarter: 1, earnings: 8 },
         { quarter: 2, earnings: 8 },
@@ -124,11 +107,12 @@ const MaketContainerPlayGraph = () => {
                     <VictoryBar data={data} />
                 </Charts> */}
 
-                <VictoryChart
-                    domainPadding={20}
-                    theme={VictoryTheme.material}
+                <Charts
+                    tickFormatX={tickFormatX}
+                    ticksSize={ticksSize}
+                    tickValues={[-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]} 
                 >
-                    <VictoryAxis
+                    {/* <VictoryAxis
                         tickValues={[-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]}
                         tickFormat={tickFormatX}
                         style={[styles.axisYears]}
@@ -136,10 +120,10 @@ const MaketContainerPlayGraph = () => {
                     />
                     <VictoryAxis
                         dependentAxis
-                        tickFormat={(x) => (`${x / 1}`)}
                         offsetX={40}
+                        ticksSize = {ticksSize}
                         style={[styles.axisOne]}
-                    />
+                    /> */}
                     <VictoryStack
                         colorScale={["#88B7E3", "#D31515", "#1FA808"]}
                         style={{
@@ -149,21 +133,18 @@ const MaketContainerPlayGraph = () => {
                     >
                         <VictoryBar
                             data={data2014}
-                            x="quarter"
                             y="earnings"
                         />
                         <VictoryBar
                             data={data2012}
-                            x="quarter"
                             y="earnings"
                         />
                         <VictoryBar
                             data={data2013}
-                            x="quarter"
                             y="earnings"
                         />
                     </VictoryStack>
-                </VictoryChart>
+                </Charts>
             </Graph>
         </View>
 

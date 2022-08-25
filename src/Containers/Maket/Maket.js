@@ -14,11 +14,26 @@ import MaketContainerPlayGraph from './MaketContainerPlayGraph'
 import MaketContainerNotPlayGraph from './MaketContainerNotPlayGraph'
 import { useDispatch, useSelector } from 'react-redux'
 import { changeGraph } from '@/Store/Maket'
+import { useAccountSignalQuery, useNotInJobQuery, useRetrieveQuery } from '@/Services/modules/Maket'
+import { RefreshComponent } from '@/Components/Common'
 
 const Stack = createStackNavigator()
 
 const Main = () => {
   const graph = useSelector(state => state.maket.graph)
+  const date = useSelector(state => state.maket.date)
+  const { isFetching: fetch1, isLoading: load1, refetch: refetch1 } = useAccountSignalQuery(date)
+  const { isFetching: fetch2, isLoading: load2, refetch: refetch2 } = useNotInJobQuery(date)
+  const { isFetching: fetch3, isLoading: load3, refetch: refetch3 } = useRetrieveQuery(date)
+  if (load1 && load2 && load3) {
+    return <View style={{ height: '100%', width: '100%', position: 'absolute', backgroundColor: '#fff' }}></View>
+  }
+
+  const refresh = () => {
+    refetch1()
+    refetch2()
+    refetch3()
+  }
   const dispatch = useDispatch()
   return (
     <View>
@@ -27,10 +42,16 @@ const Main = () => {
           <View style={{ marginTop: 36, marginLeft: 12, marginRight: 12 }}>
             <MaketHeaderText />
             <MaketText />
-            <MaketContainerHistory />
-            <MaketContainerPlay />
-            <MaketContainerNotPlay />
-            <MaketContainerResult />
+            <RefreshComponent
+              refreshing={!load1 && !load2 && !load3 && fetch1 || fetch2 || fetch3}
+              onRefresh={refresh}
+            >
+              <MaketContainerHistory />
+              <MaketContainerPlay />
+              <MaketContainerNotPlay />
+              <MaketContainerResult />
+            </RefreshComponent>
+
           </View>
           <View>
             <MaketContainerTable />
@@ -44,7 +65,7 @@ const Main = () => {
             dispatch(changeGraph(null))
           }}
         >
-          <MaketTextGraph /> 
+          <MaketTextGraph />
         </Modal>
 
         <Modal
@@ -55,7 +76,7 @@ const Main = () => {
             dispatch(changeGraph(null))
           }}
         >
-          <MaketContainerPlayGraph /> 
+          <MaketContainerPlayGraph />
         </Modal>
 
         <Modal
@@ -66,7 +87,7 @@ const Main = () => {
             useDispatch(changeGraph(null))
           }}
         >
-          <MaketContainerNotPlayGraph /> 
+          <MaketContainerNotPlayGraph />
         </Modal>
       </ScrollView>
       {/* <View style={{height:'85%', width: "100%", backgroundColor: '#9E9E9E', borderTopLeftRadius: 49, borderTopRightRadius: 49}}>
