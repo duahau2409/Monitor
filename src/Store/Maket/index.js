@@ -35,6 +35,7 @@ const slice = createSlice({
                 LOSE: getDataJob(data, 'LOSE', date),
                 WIN: getDataJob(data, 'WIN', date),
                 NEW: getDataJob(data, 'NEW', date),
+                entry1: getDataJob(data, 'null', date),
             }
         },
         handleNotJob: (state, { payload: { data, date } }) => {

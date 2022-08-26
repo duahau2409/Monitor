@@ -4,49 +4,32 @@ import Graph from '@/Components/Graph'
 import { VictoryAxis, VictoryBar, VictoryChart, VictoryHistogram, VictoryStack, VictoryTheme } from 'victory-native';
 import { VictoryLine } from 'victory-native'
 import Charts from '@/Components/Charts'
-import { convertDate, format2degit } from '@/Util';
+import { calculatePlay, convertDate, format2degit } from '@/Util';
 import { useSelector } from 'react-redux';
+import { useMemo } from 'react';
 
 const MaketContainerPlayGraph = () => {
+    const job = useSelector(state => state.maket.job)
+    const cacu = calculatePlay(job)
     const date = useSelector(state => state.maket.date)
-    const data2012 = [
-        { quarter: 1, earnings: 8 },
-        { quarter: 2, earnings: 8 },
-        { quarter: 3, earnings: 4 },
-        { quarter: 4, earnings: 4 },
-        { quarter: 5, earnings: 8 },
-        { quarter: 6, earnings: 6 },
-        { quarter: 7, earnings: 7 },
 
-    ];
+    const countByHours = (arr = [], x, nameAtbTime) => {
+        return arr.filter(item =>
+            x === new Date(item[nameAtbTime]).getHours()
+        ).length
+    }
 
-    const data2013 = [
-        { quarter: 1, earnings: 30 },
-        { quarter: 2, earnings: 17 },
-        { quarter: 3, earnings: 4 },
-        { quarter: 4, earnings: 10 },
-        { quarter: 5, earnings: 6 },
-        { quarter: 6, earnings: 0 },
-        { quarter: 7, earnings: 0 },
-    ];
-
-    const data2014 = [
-        { quarter: 1, earnings: 0 },
-        { quarter: 2, earnings: 0 },
-        { quarter: 3, earnings: 0 },
-        { quarter: 4, earnings: 0 },
-        { quarter: 5, earnings: 0 },
-        { quarter: 6, earnings: 2 },
-        { quarter: 7, earnings: 5 },
-
-    ];
-
-    const data2015 = [
-        { quarter: 1, earnings: 0 },
-        { quarter: 2, earnings: 0 },
-        { quarter: 3, earnings: 0 },
-        { quarter: 4, earnings: 0 }
-    ];
+    const initData = (nameAtbTime, arr = []) => {
+        const data = []
+        for (let x = -1; x <= 24; x++) {
+            data.push({ x, y: countByHours(arr, x, nameAtbTime) })
+        }
+        return data
+    }
+    const fail = useMemo(() => initData('createdAt', job?.FAIL), [job])
+    const neww = useMemo(() => initData('createdTime', job?.NEW), [job])
+    const lose = useMemo(() => initData('createdTime', job?.LOSE), [job])
+    const win = useMemo(() => initData('createdTime', job?.WIN), [job])
 
     const tickFormatX = (x) => {
         return x % 5 === 0 ? format2degit(x) + ` (${convertDate(date).slice(0, 5)})` : ''
@@ -69,7 +52,7 @@ const MaketContainerPlayGraph = () => {
                             }}>Thắng&ensp;<Text
                                 style={{
                                     color: '#1FA808',
-                                }}>41.26%</Text>
+                                }}>{cacu?.percentWin}</Text>
                         </Text>
                         <Text style={{
                             fontWeight: '400',
@@ -80,7 +63,7 @@ const MaketContainerPlayGraph = () => {
                         }}>Thua&ensp;<Text
                             style={{
                                 color: '#D31515'
-                            }}>28.08%</Text></Text>
+                            }}>{cacu?.percentLose}</Text></Text>
                         <Text style={{
                             fontWeight: '400',
                             fontSize: 12,
@@ -89,7 +72,7 @@ const MaketContainerPlayGraph = () => {
                         }}>Lời, lỗ&ensp;<Text
                             style={{
                                 color: '#1FA808'
-                            }}>5.264344</Text></Text>
+                            }}>{cacu?.result}</Text></Text>
                     </View>
                 </View >
                 {/* <Charts
@@ -108,40 +91,27 @@ const MaketContainerPlayGraph = () => {
                 </Charts> */}
 
                 <Charts
+                    // data={data2014}
                     tickFormatX={tickFormatX}
                     ticksSize={ticksSize}
-                    tickValues={[-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]} 
+                    tickValues={[-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]}
                 >
-                    {/* <VictoryAxis
-                        tickValues={[-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]}
-                        tickFormat={tickFormatX}
-                        style={[styles.axisYears]}
-
-                    />
-                    <VictoryAxis
-                        dependentAxis
-                        offsetX={40}
-                        ticksSize = {ticksSize}
-                        style={[styles.axisOne]}
-                    /> */}
-                    <VictoryStack
-                        colorScale={["#88B7E3", "#D31515", "#1FA808"]}
-                        style={{
-                            data: { width: 6 },
-                            labels: { padding: -20 }
-                        }}
-                    >
-                        <VictoryBar
-                            data={data2014}
-                            y="earnings"
+                    <VictoryStack>
+                        {/* <VictoryBar
+                            data={fail}
+                            style={{ data: { fill: '#fa91ca', width: 4 } }}
                         />
                         <VictoryBar
-                            data={data2012}
-                            y="earnings"
+                            data={neww}
+                            style={{ data: { fill: '#faad14', width: 4 } }}
+                        /> */}
+                        <VictoryBar
+                            data={lose}
+                            style={{ data: { fill: '#ff4d4f', width: 4 } }}
                         />
                         <VictoryBar
-                            data={data2013}
-                            y="earnings"
+                            data={win}
+                            style={{ data: { fill: '#48c60a', width: 4 } }}
                         />
                     </VictoryStack>
                 </Charts>

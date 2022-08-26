@@ -69,8 +69,7 @@ function MyTabBar({ state, descriptors, navigation }) {
             <Text 
             style={{ 
               color: isFocused ? '#fff' : '#fff',
-              fontSize: 14,
-              marginTop: 5  
+
               }}>
               {label}
             </Text>

@@ -4,6 +4,7 @@ import retrieve from './retrieve'
 import notInJob from './notInJob'
 import accountSignal from './accountSignal'
 import history from './history'
+import sellAll from './sellAll'
 
 const listMarketCapAPI = api.injectEndpoints({
     endpoints: build => ({
@@ -11,7 +12,8 @@ const listMarketCapAPI = api.injectEndpoints({
         retrieve: retrieve(build),
         notInJob: notInJob(build),
         accountSignal: accountSignal(build),
-        history: history(build)
+        history: history(build),
+        sellAll: sellAll(build),
     }),
     overrideExisting: false,
 })
@@ -21,5 +23,6 @@ export const {
     useRetrieveQuery,
     useNotInJobQuery,
     useAccountSignalQuery,
-    useHistoryQuery
+    useHistoryQuery,
+    useSellAllQuery,
  } = listMarketCapAPI

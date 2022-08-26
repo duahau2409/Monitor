@@ -35,3 +35,24 @@ export const calculate = (job, notJob) => {
     }
     return null
 }
+
+export const calculatePlay = (job) => {
+    if (job) {
+        const total = job.WIN.length + job.LOSE.length 
+        const win = job.WIN.length
+        const percentWin = total !== 0 ? `(${(win / total * 100).toFixed(2)}%)` : '(00.00%)'
+        const lose = job.LOSE.length
+        const percentLose = total !== 0 ? `(${(lose / total * 100).toFixed(2)}%)` : '(00.00%)'
+        const _new = job.NEW.length
+        const percentNew = total !== 0 ? `(${(_new / total * 100).toFixed(2)}%)` : '(00.00%)'
+        // if(job.entry1 === 'null'){
+            const resultWin = 0.0.toFixed(6)
+            const resultLose = 0.0.toFixed(6)
+            const result = 0.0.toFixed(6)
+        // }
+        return {
+            total, win, lose, percentLose, percentWin, new: _new, percentNew, resultWin, resultLose,result
+        }
+    }
+    return null
+}

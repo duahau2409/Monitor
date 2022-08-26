@@ -45,7 +45,7 @@ const MainNavigator = () => {
         />
         <Tab.Screen
           name="Limit"
-          component={Limit}
+          component={Maket}
           options={{
             tabBarIconStyle: { display: 'none' },
             tabBarLabelPosition: 'beside-icon',

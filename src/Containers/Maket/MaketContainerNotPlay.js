@@ -38,8 +38,8 @@ const MaketContainerNotPlay = () => {
                 </View>
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 31 }}>
-                <Text style={{ fontWeight: '700', fontSize: 12, lineHeight: 14.52, color: 'black' }}>Số kèo thắng: <Text style={{ color: 'green' }}>1 (100,00%)</Text></Text>
-                <Text style={{ fontWeight: '700', fontSize: 12, lineHeight: 14.52, color: 'black' }}>Số kèo thua: <Text style={{ color: 'red' }}>0 (0,00%)</Text></Text>
+                <Text style={{ fontWeight: '700', fontSize: 12, lineHeight: 14.52, color: 'black' }}>Số kèo thắng: <Text style={{ color: 'green' }}>{cacu?.win} {cacu?.percentWin}</Text></Text>
+                <Text style={{ fontWeight: '700', fontSize: 12, lineHeight: 14.52, color: 'black' }}>Số kèo thua: <Text style={{ color: 'red' }}>{cacu?.lose} {cacu?.percentLose}</Text></Text>
             </View>
         </TouchableOpacity>
     )
