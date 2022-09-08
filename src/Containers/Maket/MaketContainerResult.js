@@ -1,11 +1,14 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, {useState} from 'react'
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { changeGraph } from '@/Store/Maket'
 
 const MaketContainerResult = () => {
+    const dispatch = useDispatch()
     const [activeTab, setActiveTab] = useState('Đã có kết quả')
-    const [Submitted, SetSubmitted] = useState(false)
-    const onPressHandler = () => {
-        SetSubmitted(!Submitted);
+    const [Submitted, SetSubmitted] = useState(1)
+    const onPressHandler = (value) => {
+        SetSubmitted(value);
     }
     return (
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 30, borderBottomWidth: 1, borderColor: '#E9E9E9' }}>
@@ -22,27 +25,32 @@ const MaketContainerResult = () => {
                         textColor="#ffff"
                         activeTab={activeTab}
                         setActiveTab={setActiveTab}
+                        onPressHandler={() => onPressHandler(1)}
                     />
                 </View>
-                <TouchableOpacity
+                <View
                     style={{
                         borderRightWidth: 1,
                         borderColor: '#fff',
                     }}
                     onPress={onPressHandler}
-                    >
+                >
                     <ResultBTN
                         text={"Chưa có kết quả"}
                         btnColor="#6C6C6C"
                         textColor="#ffff"
                         activeTab={activeTab}
-                        onPress={onPressHandler}
+                        onPressHandler={() => onPressHandler(2)}
                         setActiveTab={setActiveTab}
                     />
-                </TouchableOpacity>
+                </View>
             </View>
-            {Submitted ?
-                <TouchableOpacity>
+            {Submitted  === 2 ?
+                <TouchableOpacity
+                onPress={() => {
+                    dispatch(changeGraph('SELECT_AC'))
+                }}
+                >
                     <Text style={{ backgroundColor: 'black', color: '#fff', paddingRight: 27, paddingLeft: 27, paddingBottom: 6, paddingTop: 7, borderRadius: 4 }}>Bán hết</Text>
                 </TouchableOpacity>
                 :
@@ -64,7 +72,10 @@ const ResultBTN = (props) => (
         }}
     >
         <TouchableOpacity
-            onPress={() => props.setActiveTab(props.text)}
+            onPress={() => {
+                props.setActiveTab(props.text),
+                props.onPressHandler()
+            }}
         >
             <Text
                 style={{
@@ -79,4 +90,4 @@ const ResultBTN = (props) => (
                 }}>{props.text}</Text>
         </TouchableOpacity>
     </View>
-  )
+)

@@ -19,6 +19,7 @@ const LogInButton = () => {
             tfaCode: '111111'
         })
     }
+    // console.log(data, '-----------')
     useEffect(() => {
         if (isSuccess) {
             dispatch(updateAuth(data.data.token.accessToken))
@@ -26,6 +27,7 @@ const LogInButton = () => {
             navigateAndSimpleReset('Welcome')
         }
     }, [isSuccess])
+    
     useEffect(() => {
         if (isLoading) {
             dispatch(setMessage('Loading...'))

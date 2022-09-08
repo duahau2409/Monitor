@@ -51,21 +51,22 @@ const HistoryContainer = () => {
                                 paddingLeft: 30,
 
                             }}>
-                                <Text>{convertTime(data.createdAt) + ' ' + convertDate(data.createdAt)}</Text>
+                                <Text style={{color:'black'}}>{convertTime(data.createdAt) + ' ' + convertDate(data.createdAt)}</Text>
                             </View>
                             <View style={{
                                 flex: 2,
-                                paddingLeft: 10,
-                                width: 70,
-                                height: 22,
+                                // paddingLeft: 10,
+                                // width: 70,
+                                // height: 22,
                             }}>
                                 <Text style={{
+                                    color: 'black'
                                 }}>{data.reason}
                                 </Text>
-                                <Text style={{
+                                {/* <Text style={{
                                     position: 'absolute',
                                     right: 25
-                                }}>....</Text>
+                                }}>....</Text> */}
                             </View>
                         </View>
                     )

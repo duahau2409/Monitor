@@ -20,6 +20,7 @@ const LimitHeaderText = () => {
                             fontSize: 16,
                             lineHeight: 19,
                             fontWeight: 'bold',
+                            color: 'black'
                         }}>Limit</Text>
                 </View>
                 <View style={{ flexDirection: 'row' }}>

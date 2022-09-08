@@ -45,7 +45,7 @@ const MainNavigator = () => {
         />
         <Tab.Screen
           name="Limit"
-          component={Maket}
+          component={Limit}
           options={{
             tabBarIconStyle: { display: 'none' },
             tabBarLabelPosition: 'beside-icon',
@@ -67,15 +67,15 @@ const MainNavigator = () => {
             tabBarLabelPosition: 'beside-icon',
           }}
         />
-        {/* <Tab.Screen
-          name="LogIn"
-          component={LogIn}
+         {/* <Tab.Screen
+          name="index"
+          component={SellAll}
           options={{
             tabBarIconStyle: { display: 'none' },
             tabBarLabelPosition: 'beside-icon',
           }}
-        />
-        <Tab.Screen
+        /> */}
+        {/*<Tab.Screen
           name="Home"
           component={ExampleContainer}
           options={{

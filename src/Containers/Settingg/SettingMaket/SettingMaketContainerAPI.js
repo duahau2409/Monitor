@@ -10,7 +10,7 @@ const SettingMaketContainerAPI = () => {
         style={{
             width: '100%',
             backgroundColor: '#F3F3F3',
-            height: 126,
+            height: 150,
             padding: 5,
             borderRadius: 4
         }}>

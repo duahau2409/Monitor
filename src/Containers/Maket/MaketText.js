@@ -11,7 +11,7 @@ const MaketText = () => {
   const dispatch = useDispatch()
   useEffect(() => {
     if (error) {
-      console.log(error, '---error')
+      // console.log(error, '---error')
     }
   }, [error])
   return (
@@ -19,7 +19,7 @@ const MaketText = () => {
       style={{ marginTop: 3 }}
       onPress={() => { dispatch(changeGraph('MARKET_CAP')) }}
     >
-      <Text style={{ fontWeight: '400', fontSize: 12, lineHeight: 14.52, }}>Maket Cap <Text style={{ color: '#D31515' }}>{data && convertCurrency(data.data[data.data.length - 1].marketCap)}</Text></Text>
+      <Text style={{ fontWeight: '400', fontSize: 12, lineHeight: 14.52, color: 'black' }}>Maket Cap <Text style={{ color: '#D31515' }}>{data && convertCurrency(data.data[data.data.length - 1].marketCap)}</Text></Text>
     </TouchableOpacity>
   )
 }

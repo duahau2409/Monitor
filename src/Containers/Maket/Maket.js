@@ -1,5 +1,5 @@
-import { Modal, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { View, ActivityIndicator, Image, Text, ScrollView } from 'react-native'
+import React, { useMemo } from 'react'
 import MaketHeaderText from './MaketHeaderText'
 import MaketText from './MaketText'
 import MaketContainerHistory from './MaketContainerHistory'
@@ -8,33 +8,59 @@ import MaketContainerNotPlay from './MaketContainerNotPlay'
 import MaketContainerResult from './MaketContainerResult'
 import MaketContainerTable from './MaketContainerTable'
 import History from '../History/History'
-import { createStackNavigator } from '@react-navigation/stack'
-import MaketTextGraph from './MaketTextGraph'
-import MaketContainerPlayGraph from './MaketContainerPlayGraph'
-import MaketContainerNotPlayGraph from './MaketContainerNotPlayGraph'
-import { useDispatch, useSelector } from 'react-redux'
-import { changeGraph } from '@/Store/Maket'
+import { useSelector } from 'react-redux'
 import { useAccountSignalQuery, useNotInJobQuery, useRetrieveQuery } from '@/Services/modules/Maket'
 import { RefreshComponent } from '@/Components/Common'
+import { handleDataByStatus } from '@/Util'
+import MaketModal from './MaketModal'
+import { createStackNavigator } from '@react-navigation/stack'
 
 const Stack = createStackNavigator()
 
 const Main = () => {
-  const graph = useSelector(state => state.maket.graph)
   const date = useSelector(state => state.maket.date)
-  const { isFetching: fetch1, isLoading: load1, refetch: refetch1 } = useAccountSignalQuery(date)
-  const { isFetching: fetch2, isLoading: load2, refetch: refetch2 } = useNotInJobQuery(date)
-  const { isFetching: fetch3, isLoading: load3, refetch: refetch3 } = useRetrieveQuery(date)
-  if (load1 && load2 && load3) {
-    return <View style={{ height: '100%', width: '100%', position: 'absolute', backgroundColor: '#fff' }}></View>
-  }
+  const { data: dataJob, isFetching: fetch1, isLoading: load1, refetch: refetch1 } = useAccountSignalQuery(date)
+  const { data: dataNotJob, isFetching: fetch2, isLoading: load2, refetch: refetch2 } = useNotInJobQuery(date)
+  const { isFetching: fetch3, isLoading: load3, refetch: refetch3 } = useRetrieveQuery()
+
 
   const refresh = () => {
     refetch1()
     refetch2()
     refetch3()
   }
-  const dispatch = useDispatch()
+
+  const job = useMemo(() => {
+    if (dataJob)
+      return handleDataByStatus(dataJob.data, 'job', date)
+    return null
+  }, [dataJob])
+
+  const notJob = useMemo(() => {
+    if (dataNotJob)
+      return handleDataByStatus(dataNotJob.data, 'notJob', date)
+    return null
+  }, [dataNotJob])
+  const dataWin = useMemo(() => {
+    const data = job ? job.WIN : []
+    return data.reduce((pre, item) =>
+      (pre + (item.sellPrice / item.entry1) * item.sellAmount - item.sellAmount).toFixed(6)
+      , 0)
+  })
+
+  const dataLose = useMemo(() => {
+    const data = job ? job.LOSE : []
+    return data.reduce((pre, item) =>
+      (pre + (item.sellPrice / item.entry1) * item.sellAmount - item.sellAmount).toFixed(6)
+      , 0)
+  })
+
+  const total = dataWin + dataLose
+  if (load1 || load2 || load3) {
+    return <View style={{ height: '100%', width: '100%', position: 'absolute', justifyContent: 'center' }}>
+      <ActivityIndicator />
+    </View>
+  }
   return (
     <View>
       <ScrollView>
@@ -42,56 +68,26 @@ const Main = () => {
           <View style={{ marginTop: 36, marginLeft: 12, marginRight: 12 }}>
             <MaketHeaderText />
             <MaketText />
-            <RefreshComponent
+            {/* <RefreshComponent
               refreshing={!load1 && !load2 && !load3 && fetch1 || fetch2 || fetch3}
               onRefresh={refresh}
-            >
+            > */}
               <MaketContainerHistory />
-              <MaketContainerPlay />
-              <MaketContainerNotPlay />
-              <MaketContainerResult />
-            </RefreshComponent>
+              <MaketContainerPlay job={job} total={total} dataWin={dataWin} dataLose ={dataLose}/>
+              {/*  */}
+              <MaketContainerNotPlay job={job} notJob={notJob} />
+              {/*  */}
+              <MaketContainerResult job={job} notJob={notJob} />
+              {/*  */}
+            {/* </RefreshComponent> */}
 
           </View>
           <View>
-            <MaketContainerTable />
+            <MaketContainerTable job={job} notJob={notJob} total={total}/>
           </View>
         </View>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={graph === 'MARKET_CAP' ? true : false}
-          onRequestClose={() => {
-            dispatch(changeGraph(null))
-          }}
-        >
-          <MaketTextGraph />
-        </Modal>
-
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={graph === 'BET' ? true : false}
-          onRequestClose={() => {
-            dispatch(changeGraph(null))
-          }}
-        >
-          <MaketContainerPlayGraph />
-        </Modal>
-
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={graph === 'NO_BET' ? true : false}
-          onRequestClose={() => {
-            useDispatch(changeGraph(null))
-          }}
-        >
-          <MaketContainerNotPlayGraph />
-        </Modal>
       </ScrollView>
-      {/* <View style={{height:'85%', width: "100%", backgroundColor: '#9E9E9E', borderTopLeftRadius: 49, borderTopRightRadius: 49}}>
-          </View> */}
+      <MaketModal />
     </View>
   )
 }

@@ -4,5 +4,6 @@ export default build =>
             url: 'admin/job-setting/history',
             method: 'GET',
             params: {page, limit}
-        })
+        }),
+        keepUnusedDataFor: 1,
     })

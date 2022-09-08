@@ -1,7 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import { useRetrieveQuery } from '@/Services/modules/Maket'
+import Circle from '@/Components/Cricle'
 
 const SettingMaketHeaderText = () => {
+    const { data } = useRetrieveQuery()
     return (
         <View
             style={{
@@ -23,6 +26,7 @@ const SettingMaketHeaderText = () => {
                         }}>Setting</Text>
                 </View>
                 <View style={{ flexDirection: 'row' }}>
+                {data && <Circle status={data.data.auto} />}
                     <Text
                         style={{
                             marginRight: 9,
@@ -31,13 +35,14 @@ const SettingMaketHeaderText = () => {
                             fontWeight: "400",
                             color: '#9E9E9E'
                         }}>tự động</Text>
+                        {data && <Circle status={data.data.turnOn} />}
                     <Text
                         style={{
                             fontSize: 12,
                             lineHeight: 14.52,
                             color: '#9E9E9E',
                             fontWeight: "400",
-                        }}>tắt</Text>
+                        }}>{data?.data.turnOn?'Bật':'Tắt'}</Text>
                 </View>
             </View>
         </View>

@@ -4,32 +4,44 @@ import Graph from '@/Components/Graph'
 import { VictoryAxis, VictoryBar, VictoryChart, VictoryHistogram, VictoryStack, VictoryTheme } from 'victory-native';
 import { VictoryLine } from 'victory-native'
 import Charts from '@/Components/Charts'
-import { calculatePlay, convertDate, format2degit } from '@/Util';
+import { calculatePlay, convertDate, format2degit, handleDataByHours, handleDataByStatus } from '@/Util';
 import { useSelector } from 'react-redux';
 import { useMemo } from 'react';
+import { useAccountSignalQuery } from '@/Services/modules/Maket';
 
-const MaketContainerPlayGraph = () => {
-    const job = useSelector(state => state.maket.job)
-    const cacu = calculatePlay(job)
+const MaketContainerPlayGraph = ({ total }) => {
+    // const job = useSelector(state => state.maket.job)
+    // const cacu = calculatePlay(job)
     const date = useSelector(state => state.maket.date)
 
-    const countByHours = (arr = [], x, nameAtbTime) => {
-        return arr.filter(item =>
-            x === new Date(item[nameAtbTime]).getHours()
-        ).length
-    }
+    const { data: dataJob, isFetching: fetch1, isLoading: load1, refetch: refetch1 } = useAccountSignalQuery(date)
 
-    const initData = (nameAtbTime, arr = []) => {
-        const data = []
-        for (let x = -1; x <= 24; x++) {
-            data.push({ x, y: countByHours(arr, x, nameAtbTime) })
-        }
-        return data
-    }
-    const fail = useMemo(() => initData('createdAt', job?.FAIL), [job])
-    const neww = useMemo(() => initData('createdTime', job?.NEW), [job])
-    const lose = useMemo(() => initData('createdTime', job?.LOSE), [job])
-    const win = useMemo(() => initData('createdTime', job?.WIN), [job])
+    const job = useMemo(() => {
+        if (dataJob)
+            return handleDataByStatus(dataJob.data, 'job', date)
+        return []
+    }, [dataJob])
+
+    const cacu = calculatePlay(job)
+
+    const dataJobGraph = useMemo(() => handleDataByHours(job, 'job'), [job])
+    // const countByHours = (arr = [], x, nameAtbTime) => {
+    //     return arr.filter(item =>
+    //         x === new Date(item[nameAtbTime]).getHours()
+    //     ).length
+    // }
+
+    // const initData = (nameAtbTime, arr = []) => {
+    //     const data = []
+    //     for (let x = -1; x <= 24; x++) {
+    //         data.push({ x, y: countByHours(arr, x, nameAtbTime) })
+    //     }
+    //     return data
+    // }
+    // const fail = useMemo(() => initData('createdAt', job?.FAIL), [job])
+    // const neww = useMemo(() => initData('createdTime', job?.NEW), [job])
+    // const lose = useMemo(() => initData('createdTime', job?.LOSE), [job])
+    // const win = useMemo(() => initData('createdTime', job?.WIN), [job])
 
     const tickFormatX = (x) => {
         return x % 5 === 0 ? format2degit(x) + ` (${convertDate(date).slice(0, 5)})` : ''
@@ -53,6 +65,7 @@ const MaketContainerPlayGraph = () => {
                                 style={{
                                     color: '#1FA808',
                                 }}>{cacu?.percentWin}</Text>
+                            {/* {cacu?.percentWin} */}
                         </Text>
                         <Text style={{
                             fontWeight: '400',
@@ -64,6 +77,7 @@ const MaketContainerPlayGraph = () => {
                             style={{
                                 color: '#D31515'
                             }}>{cacu?.percentLose}</Text></Text>
+                        {/* {cacu?.percentLose} */}
                         <Text style={{
                             fontWeight: '400',
                             fontSize: 12,
@@ -72,7 +86,8 @@ const MaketContainerPlayGraph = () => {
                         }}>Lời, lỗ&ensp;<Text
                             style={{
                                 color: '#1FA808'
-                            }}>{cacu?.result}</Text></Text>
+                            }}>{total}</Text></Text>
+
                     </View>
                 </View >
                 {/* <Charts
@@ -97,20 +112,20 @@ const MaketContainerPlayGraph = () => {
                     tickValues={[-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]}
                 >
                     <VictoryStack>
-                        {/* <VictoryBar
-                            data={fail}
+                        <VictoryBar
+                            data={dataJobGraph.WIN}
                             style={{ data: { fill: '#fa91ca', width: 4 } }}
                         />
                         <VictoryBar
-                            data={neww}
+                            data={dataJobGraph.NEW}
                             style={{ data: { fill: '#faad14', width: 4 } }}
-                        /> */}
+                        />
                         <VictoryBar
-                            data={lose}
+                            data={dataJobGraph.LOSE}
                             style={{ data: { fill: '#ff4d4f', width: 4 } }}
                         />
                         <VictoryBar
-                            data={win}
+                            data={dataJobGraph.WIN}
                             style={{ data: { fill: '#48c60a', width: 4 } }}
                         />
                     </VictoryStack>

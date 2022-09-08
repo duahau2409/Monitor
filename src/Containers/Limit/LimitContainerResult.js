@@ -1,12 +1,34 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, {useState} from 'react'
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { useSellAllMutation } from '@/Services/modules/Maket/sellAll'
+import { resetAuth, updateAuth } from '@/Store/Auth'
+import { submitSuccess } from '@/Store/LogIn'
+import { navigate, navigateAndSimpleReset } from '@/Navigators/utils'
+import { useEffect } from 'react'
+import { changeGraph } from '@/Store/Maket'
 
 const LimitContainerResult = () => {
+    const dispatch = useDispatch()
     const [activeTab, setActiveTab] = useState('Đã có kết quả')
-    const [Submitted, SetSubmitted] = useState(false)
-    const onPressHandler = () => {
-        SetSubmitted(!Submitted);
+    const [Submitted, SetSubmitted] = useState(1)
+    const onPressHandler = (value) => {
+        SetSubmitted(value);
     }
+    // const [sellAll, { data, isLoading, isSuccess, error }] = useSellAllMutation()
+    // console.log(total)
+    // const submit = () => {
+    //     sellAll({
+    //         priceBalance: Number(total)
+    //     })
+    //     console.log(priceBalance, '++++112233')
+    // }
+    // useEffect(() => {
+    //     if (isSuccess) {
+    //         console.log(data)
+    //     }
+    // }, [isSuccess])
+    // console.log(isSuccess, data, error, '--------')
     return (
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 30, borderBottomWidth: 1, borderColor: '#E9E9E9' }}>
             <View style={{ flexDirection: 'row' }}>
@@ -22,34 +44,36 @@ const LimitContainerResult = () => {
                         textColor="#ffff"
                         activeTab={activeTab}
                         setActiveTab={setActiveTab}
+                        onPressHandler={() => onPressHandler(1)}
                     />
                 </View>
-                <TouchableOpacity
+                <View
                     style={{
                         borderRightWidth: 1,
                         borderColor: '#fff',
                     }}
-                    onPress={onPressHandler}
+                // onPress={onPressHandler}
                 >
                     <ResultBTN
                         text={"Chưa có kết quả"}
                         btnColor="#6C6C6C"
                         textColor="#ffff"
                         activeTab={activeTab}
-                        onPress={onPressHandler}
                         setActiveTab={setActiveTab}
+                        onPressHandler={() => onPressHandler(2)}
                     />
-                </TouchableOpacity>
-            </View>
-            {Submitted ?
-                <View>
-                    <Text style={{ backgroundColor: 'black', color: '#fff', paddingRight: 27, paddingLeft: 27, paddingBottom: 6, paddingTop: 7 }}>Bán hết</Text>
                 </View>
-                :
-                null
+            </View>
+            {Submitted === 2 &&
+                <TouchableOpacity
+                    onPress={() => {
+                        dispatch(changeGraph('SELECT_AC'))
+                    }}
+                >
+                    <Text style={{ backgroundColor: 'black', color: '#fff', paddingRight: 27, paddingLeft: 27, paddingBottom: 6, paddingTop: 7 }}>Bán hết</Text>
+                </TouchableOpacity>
             }
         </View>
-
     )
 }
 
@@ -64,7 +88,10 @@ const ResultBTN = (props) => (
         }}
     >
         <TouchableOpacity
-            onPress={() => props.setActiveTab(props.text)}
+            onPress={() => {
+                props.setActiveTab(props.text);
+                props.onPressHandler()
+            }}
         >
             <Text
                 style={{

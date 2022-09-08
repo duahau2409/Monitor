@@ -5,6 +5,7 @@ import SettingLimitHeaderButton from './SettingLimitHeaderButton'
 import SettingLimitContainerInput from './SettingLimitContainerInput'
 import SettingLimitContainerButton from './SettingLimitContainerButton'
 import SettingLimitContainerFuntion from './SettingLimitContainerFuntion'
+import Message from './Message'
 
 const SettingLimit = () => {
     return (
@@ -17,6 +18,7 @@ const SettingLimit = () => {
                 paddingTop: 42
             }}>
                 <SettingLimitContainerInput />
+                <Message />
             </View>
             <View
                 style={{

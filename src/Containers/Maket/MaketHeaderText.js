@@ -5,6 +5,7 @@ import { useRetrieveQuery } from '@/Services/modules/Maket'
 
 const MaketHeaderText = () => {
     const { data } = useRetrieveQuery()
+    // console.log(data)
     return (
         <View
             style={{
@@ -23,6 +24,7 @@ const MaketHeaderText = () => {
                             fontSize: 16,
                             lineHeight: 19,
                             fontWeight: 'bold',
+                            color: 'black'
                         }}>Maket</Text>
                 </View>
                 <View style={{ flexDirection: 'row' }}>

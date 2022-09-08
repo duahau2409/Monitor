@@ -10,7 +10,7 @@ export const convertTime = (arg) => {
 
 export const convertDate = (arg) => {
     const date = new Date(arg)
-    return `${format2degit(date.getDate())}/${format2degit(date.getMonth()+1)}/${date.getFullYear()}`
+    return `${format2degit(date.getDate())}/${format2degit(date.getMonth() + 1)}/${date.getFullYear()}`
 }
 
 export const convertCurrency = (currency) => {
@@ -35,24 +35,60 @@ export const calculate = (job, notJob) => {
     }
     return null
 }
-
 export const calculatePlay = (job) => {
-    if (job) {
-        const total = job.WIN.length + job.LOSE.length 
+    if(job) {
+        const total = job.RUNNING.length + job.WIN.length + job.LOSE.length
+        const arePlay = job.RUNNING.length
+        const percentArePlay = total !==0 ?  `(${(arePlay / total * 100).toFixed(2)}%)` : '(00.00%)'
         const win = job.WIN.length
         const percentWin = total !== 0 ? `(${(win / total * 100).toFixed(2)}%)` : '(00.00%)'
         const lose = job.LOSE.length
         const percentLose = total !== 0 ? `(${(lose / total * 100).toFixed(2)}%)` : '(00.00%)'
         const _new = job.NEW.length
         const percentNew = total !== 0 ? `(${(_new / total * 100).toFixed(2)}%)` : '(00.00%)'
-        // if(job.entry1 === 'null'){
-            const resultWin = 0.0.toFixed(6)
-            const resultLose = 0.0.toFixed(6)
-            const result = 0.0.toFixed(6)
-        // }
         return {
-            total, win, lose, percentLose, percentWin, new: _new, percentNew, resultWin, resultLose,result
+            total, arePlay, win, lose, percentLose, percentWin, percentArePlay, new: _new, percentNew
         }
     }
-    return null
+}
+// market
+
+const countByHours = (arr = [], x, dataName) => {
+    const keyTime = dataName === 'job' ? 'createdAt' : 'createdTime'
+    return arr.filter(item =>
+        x === new Date(item[keyTime]).getHours()
+    ).length
+}
+
+const initData = (arr = [], dataName) => {
+    const data = []
+    for (let x = -1; x <= 24; x++) {
+        data.push({ x, y: countByHours(arr, x, dataName) })
+    }
+    return data
+}
+export const handleDataByStatus = (data, dataName, date) => {
+    const keyTime = dataName === 'job' ? 'createdAt' : 'createdTime'
+    const newData = {
+        FAIL: [],
+        LOSE: [],
+        WIN: [],
+        NEW: [],
+        RUNNING: [],
+        TURNOFF: [],
+        TURNON: []
+    }
+    data.forEach(item => {
+        if (new Date(item[keyTime]).getDate() === new Date(date).getDate()) {
+            newData[item.status].push(item)
+        }
+    })
+    return newData
+}
+
+export const handleDataByHours = (dataByStatus, dataName) => {
+    return Object.entries(dataByStatus).reduce((pre, [key, value]) => ({
+        ...pre,
+        [key]: initData(value, dataName)
+    }), {})
 }

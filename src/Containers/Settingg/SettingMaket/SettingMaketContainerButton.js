@@ -1,7 +1,19 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
+import { useRetrieveQuery } from '@/Services/modules/Maket'
+import { useCreateMutation } from '@/Services/modules/Setting/Create'
+import { useUpdateMutation } from '@/Services/modules/Setting/Update'
 
 const SettingMaketContainerButton = () => {
+  // const [setting, { data, isLoading, isSuccess, error }] = useRetrieveQuery() === null ? useCreateMutation() : useUpdateMutation()
+  // const submit = () => {
+  //   setting({
+  //     timeIncrease,
+  //     priceIncrease,
+  //     timeDecrease,
+  //     priceDecrease,
+  //   })
+  // }
   return (
     <TouchableOpacity
       style={{
@@ -12,8 +24,9 @@ const SettingMaketContainerButton = () => {
         marginVertical: 5,
         alignItems: 'center',
         borderRadius: 4,
-
-      }}>
+      }}
+      // onPress={submit}
+      >
       <Text
         style={{
           fontWeight: '400',

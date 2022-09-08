@@ -17,12 +17,14 @@ import theme from './Theme'
 import maket from './Maket'
 import login from './LogIn'
 import auth from './Auth'
+import settingLimit from './Setting/Litmit'
 
 const reducers = combineReducers({
   theme,
   maket,
   login,
   auth,
+  settingLimit,
   api: api.reducer,
 })
 
