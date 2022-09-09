@@ -27,4 +27,6 @@ export const {
     // useSellAllQuery,
     useLazyHistoryQuery, // chưa biết để làm gì
     usePrefetch, // chưa biết để làm gì
+    useLazyNotInJobQuery,
+    useLazyRetrieveQuery,
  } = listMarketCapAPI

@@ -59,6 +59,7 @@ const Main = () => {
   if (load1 || load2 || load3) {
     return <View style={{ height: '100%', width: '100%', position: 'absolute', justifyContent: 'center' }}>
       <ActivityIndicator />
+      {/* <Text style={{color:'black', fontSize: 50}}> Đấm nhau không</Text> */}
     </View>
   }
   return (

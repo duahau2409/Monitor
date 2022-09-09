@@ -6,23 +6,23 @@ import Message from './Message'
 import { useRetrieveQuery } from '@/Services/modules/Maket'
 import { Controller, useForm } from 'react-hook-form'
 
-const nameLimits = [
-  {
-    name: "Entry",
-  },
-  {
-    name: "Target",
-  },
-  {
-    name: "Stoploss",
-  },
-  {
-    name: "Sold out",
-  },
-  {
-    name: "Buy",
-  }
-]
+// const nameLimits = [
+//   {
+//     name: "Entry",
+//   },
+//   {
+//     name: "Target",
+//   },
+//   {
+//     name: "Stoploss",
+//   },
+//   {
+//     name: "Sold out",
+//   },
+//   {
+//     name: "Buy",
+//   }
+// ]
 
 
 const SettingLimitContainerInput = () => {
@@ -69,7 +69,8 @@ const SettingLimitContainerInput = () => {
           <Controller
             name="entry"
             control={control}
-            render={({ field }) => (
+            render={({ }) => (
+              // field 
               <TextInput
                 style={{
                   padding: 5,
@@ -78,7 +79,7 @@ const SettingLimitContainerInput = () => {
                 }}
                 value={entry}
                 onChangeText={text => dispatch(changeEntry(text))}
-                {...field}
+                // {...field}
               />
             )}
           />
@@ -107,7 +108,8 @@ const SettingLimitContainerInput = () => {
           <Controller
             name="target"
             control={control}
-            render={({ field }) => (
+            render={({  }) => (
+              // field
               <TextInput
                 style={{
                   marginLeft: 10,
@@ -117,7 +119,7 @@ const SettingLimitContainerInput = () => {
                 }}
                 value={target}
                 onChangeText={text => dispatch(changeTarget(text))}
-                {...field}
+                // {...field}
               />
             )
             } />

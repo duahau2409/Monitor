@@ -1,18 +1,21 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, TouchableOpacity, View, Image, TextInput } from 'react-native'
+import React, { useState }  from 'react'
 import Graph from '@/Components/Graph'
 import Charts from '@/Components/Charts'
 import { VictoryBar, VictoryStack } from 'victory-native'
 import { useDispatch, useSelector } from 'react-redux'
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { calculate, convertDate, format2degit, handleDataByHours, handleDataByStatus } from '@/Util'
 import { useMemo } from 'react'
 import { useAccountSignalQuery, useNotInJobQuery } from '@/Services/modules/Maket'
 import { RefreshComponent } from '@/Components/Common'
+import { changeDate } from '@/Store/Maket'
 
-const MaketContainerNotPlayGraph = () => {
+const MaketContainerNotPlayGraph = ({ setLoading = ()=> {}, ...other}) => {
     // const job = useSelector(state => state.maket.job)
     // const notJob = useSelector(state => state.maket.notJob)
     const date = useSelector(state => state.maket.date)
+    const dispatch = useDispatch()
 
 
     const { data: dataJob, isFetching: fetch1, isLoading: load1, refetch: refetch1 } = useAccountSignalQuery(date)
@@ -61,6 +64,21 @@ const MaketContainerNotPlayGraph = () => {
     }
 
     const ticksSize = ({ tick }) => (tick % 5 === 0 ? 4 : 0)
+    const [isVisible, setIsVisible] = useState(false);
+
+    // const showDatePicker = () => {
+    //     setDatePickerVisibility(true);
+    // };
+
+    // const hideDatePicker = () => {
+    //     setDatePickerVisibility(false);
+    // };
+
+    // const handleConfirm = (date) => {
+    //     console.warn("A date has been picked: ", date);
+    //     hideDatePicker();
+    // };
+
     return (
         <RefreshComponent
             refreshing={!load1 && !load2 && fetch1 || fetch2}
@@ -82,7 +100,7 @@ const MaketContainerNotPlayGraph = () => {
                                     style={{
                                         color: '#1FA808',
                                     }}>{cacu?.win + ' ' + cacu?.percentWin}</Text>
-                                    {/*  */}
+                                {/*  */}
                             </Text>
                             <Text style={{
                                 fontWeight: '400',
@@ -94,8 +112,50 @@ const MaketContainerNotPlayGraph = () => {
                                 style={{
                                     color: '#D31515'
                                 }}>{cacu?.lose + ' ' + cacu?.percentLose}</Text></Text>
-                                {/* */}
+                            {/* */}
                         </View>
+                        <TextInput
+                            style={{
+                                width: '100%',
+                                height: 22,
+                                paddingTop: 5,
+                                paddingBottom: 5,
+                                paddingLeft: 11,
+                                paddingRight: 50,
+                                borderWidth: 1,
+                                borderColor: '#9E9E9E',
+                                marginTop: 26,
+                                borderRadius: 4,
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                color: 'black',
+                                fontSize: 10
+                            }}
+                        >
+                            <Text>{date}</Text>
+                        </TextInput>
+                        <TouchableOpacity
+                            onPress={() => {setIsVisible(true)}}
+                            style={{
+                                paddingLeft: 20,
+                                paddingRight: 20
+                            }}
+                        >
+                            <Image
+                                source={require('../../Assets/Images/Icon/Vector.png')}
+                                resizeMode='contain'
+                                style={{
+                                    right: 6,
+                                    top: -15,
+                                    color: '#9E9E9E',
+                                    paddingLeft: 11,
+                                    position: 'absolute',
+                                    height: 10,
+                                    width: 10,
+                                    paddingRight: 10
+                                }}
+                            />
+                        </TouchableOpacity>
                     </View>
                     <Charts
                         // data={data2014}
@@ -123,6 +183,20 @@ const MaketContainerNotPlayGraph = () => {
                         </VictoryStack>
                     </Charts>
                 </Graph>
+            </View>
+            <View>
+                <DateTimePickerModal
+                    isVisible={isVisible}
+                    date= {new Date(date)}
+                    mode="date"
+                    onConfirm={(date) => {
+                        setIsVisible(false)
+                        dispatch(changeDate(new Date(date).toISOString().slice(0,10)))
+                    }}
+                    onCancel={() =>
+                        setIsVisible(false)
+                    }
+                />
             </View>
         </RefreshComponent >
     )

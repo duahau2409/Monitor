@@ -4,54 +4,55 @@ import { useSelector } from 'react-redux'
 import { calculatePlay } from '@/Util'
 import { useState } from 'react'
 import { useMemo } from 'react'
-const LimitNumeral = [
-    {
-        name: "LPCUSDT",
-        purchase: "0.406",
-        sell: 0.402,
-        percent: -1.009,
-        interest: -0.201,
-        time: "10:49:02",
-        day: '05/07/2022'
-    },
-    {
-        name: "YFIIUSDT",
-        purchase: '985.7',
-        sell: 991.9,
-        percent: 0.6289,
-        interest: 0.125799,
-        time: "10:49:02",
-        day: '05/07/2022'
+import retrieve from '@/Services/modules/Maket/retrieve'
+// const LimitNumeral = [
+//     {
+//         name: "LPCUSDT",
+//         purchase: "0.406",
+//         sell: 0.402,
+//         percent: -1.009,
+//         interest: -0.201,
+//         time: "10:49:02",
+//         day: '05/07/2022'
+//     },
+//     {
+//         name: "YFIIUSDT",
+//         purchase: '985.7',
+//         sell: 991.9,
+//         percent: 0.6289,
+//         interest: 0.125799,
+//         time: "10:49:02",
+//         day: '05/07/2022'
 
-    },
-    {
-        name: "LPCUSDT",
-        purchase: '0.406',
-        sell: 0.402,
-        percent: -1.009,
-        interest: -0.201,
-        time: "10:49:02",
-        day: '05/07/2022'
-    },
-    {
-        name: "LPCUSDT",
-        purchase: "0.406",
-        sell: 0.402,
-        percent: -1.009,
-        interest: -0.201,
-        time: "10:49:02",
-        day: '05/07/2022'
-    },
-    {
-        name: "LPCUSDT",
-        purchase: "0.406",
-        sell: 0.402,
-        percent: -1.009,
-        interest: -0.201,
-        time: "10:49:02",
-        day: '05/07/2022'
-    }
-]
+//     },
+//     {
+//         name: "LPCUSDT",
+//         purchase: '0.406',
+//         sell: 0.402,
+//         percent: -1.009,
+//         interest: -0.201,
+//         time: "10:49:02",
+//         day: '05/07/2022'
+//     },
+//     {
+//         name: "LPCUSDT",
+//         purchase: "0.406",
+//         sell: 0.402,
+//         percent: -1.009,
+//         interest: -0.201,
+//         time: "10:49:02",
+//         day: '05/07/2022'
+//     },
+//     {
+//         name: "LPCUSDT",
+//         purchase: "0.406",
+//         sell: 0.402,
+//         percent: -1.009,
+//         interest: -0.201,
+//         time: "10:49:02",
+//         day: '05/07/2022'
+//     }
+// ]
 const MaketContainerTable = ({ job, notJob, total }) => {
     // const job = useSelector(state => state.maket.job)
     // const cacu = calculatePlay(job)
@@ -65,7 +66,7 @@ const MaketContainerTable = ({ job, notJob, total }) => {
                 purchase: item.buy.toFixed(3),
                 sell: item.sellPrice,
                 percent: ((item.sellPrice / item.entry1) * 100 - 100).toFixed(3),
-                interest: ((item.sellPrice / item.entry1) * item.buy - item.buy).toFixed(3),
+                interest: ((item.sellPrice / item.entry1) * retrieve.buy - retrieve.buy).toFixed(3),
                 time: convertTime(item.createdAt),
                 day: convertDate(item.createdAt)
             }
