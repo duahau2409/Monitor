@@ -6,8 +6,9 @@ import { useState } from 'react'
 import { convertDate, convertTime } from '@/Util'
 import { RefreshComponent } from '@/Components/Common'
 
-const HistoryContainer = ({setLoading = ()=> {}, ...other}) => {
+const HistoryContainer = () => {
     const { data: datas, isFetching: fetch1, isLoading: load1, refetch: refetch1 } = useHistoryQuery({})
+    // console.log(datas)
     
     return (
         <RefreshComponent

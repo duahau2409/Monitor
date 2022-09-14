@@ -3,30 +3,30 @@ import { createSlice } from "@reduxjs/toolkit";
 const slice = createSlice({
     name: 'settingMaket',
     initialState: {
-        timeIncrease: '',
-        priceIncrease: '',
-        timeDecrease: '',
-        priceDecrease: '',
+        upTime: '',
+        upBalance: '',
+        downTime: '',
+        downBalance: '',
         aPIKey: '',
         aPISecret: '',
         isSecurity: true,
         message: '',
     },
     reducers: {
-        changeTimeIncrease: (state, { payload }) => {
-            state.timeIncrease = payload
+        changeUpTime: (state, { payload }) => {
+            state.upTime = payload
             state.message = ''
         },
-        changePriceIncrease: (state, { payload }) => {
-            state.priceIncrease = payload
+        changeUpBalance: (state, { payload }) => {
+            state.upBalance = payload
             state.message = ''
         },
-        changeTimeDecrease: (state, { payload }) => {
-            state.timeDecrease = payload
+        changeDownTime: (state, { payload }) => {
+            state.downTime = payload
             state.message = ''
         },
-        changePriceDecrease: (state, { payload }) => {
-            state.priceDecrease = payload
+        changeDownBalance: (state, { payload }) => {
+            state.downBalance = payload
             state.message = ''
         },
         changeAPIKey: (state, { payload }) => {
@@ -71,10 +71,10 @@ const slice = createSlice({
 })
 
 export const {
-    changeTimeIncrease,
-    changePriceIncrease,
-    changeTimeDecrease,
-    changePriceDecrease,
+    changeUpTime,
+    changeUpBalance,
+    changeDownTime,
+    changeDownBalance,
     changeAPIKey,
     changeAPISecret,
     submitSuccess,

@@ -20,19 +20,8 @@ const SettingLimit = () => {
                 <SettingLimitContainerInput />
                 <Message />
             </View>
-            <View
-                style={{
-                    paddingBottom: 7,
-                    borderWidth: 1,
-                    borderColor: '#E9E9E9',
-                    padding: 12,
-                    paddingTop: 9,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    marginBottom: 10
-                }}>
-                    <SettingLimitContainerButton />
-            </View>
+            
+                    {/* <SettingLimitContainerButton /> */}
             <View style = {{paddingTop: 10, paddingBottom:10, borderWidth: 1, borderColor: "#E9E9E9"}}>
                 <SettingLimitContainerFuntion />
             </View>

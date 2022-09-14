@@ -19,7 +19,7 @@ const LogInButton = () => {
             tfaCode: '111111'
         })
     }
-    // console.log(data, '-----------')
+    console.log(data, '-----------')
     useEffect(() => {
         if (isSuccess) {
             dispatch(updateAuth(data.data.token.accessToken))

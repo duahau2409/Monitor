@@ -9,7 +9,7 @@ const baseQuery = fetchBaseQuery({
     // if (token) {
     //   headers.set('authorization', `Bearer ${token}`)
     // }
-    headers.set('authorization', `Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiQS0wNjFhMzg1NS04YjQ2LTQwYmUtYWNmOS0wNDJjNjgyYjdmYTYiLCJleHBpcmVkX3RpbWUiOjE2NjMwNTA5Nzk5NzcsImlhdCI6MTY2MTg1MDk3OSwiZXhwIjoxNjYzMDUwOTc5fQ.dyNj0ts2WoLCmpBtJ3UaXfk6uo7ZirNBjfvKT_MiYAiHRcGAwq-qthqwpiBEwqiHp-LXDf6Smx_8drl_vjVjqmLWO8mNnTMvD9w8zOKSMof0iHNOSq1m9Uivp3XLGL0-_KyTuVkP_uhc4islZhXjfMd2eQ1atMTXS9A9S-fwS7n1zXLLJe07sWGqlXj7oRYrWew4NPOOJkmQPf_Qm4UJFqZCMtARoUsvyiNFKMcFn_AFQRQLTUTUWumyxTrbdHDzRQmo8p7-T6gt3knTyUOJ05IOMtTTkXZdYTUe-3txJI8GR1xnkqxZ4-r8HyjEpLT0qB_OpmQorOmoD1uHMYUvUA`)
+    headers.set('authorization', `Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiQS0wNjFhMzg1NS04YjQ2LTQwYmUtYWNmOS0wNDJjNjgyYjdmYTYiLCJleHBpcmVkX3RpbWUiOjE2NjQxNTE1MDkwMjAsImlhdCI6MTY2Mjk1MTUwOSwiZXhwIjoxNjY0MTUxNTA5fQ.hb7LqpIdeLxHTLPnTduT69Chbp-Ga_A1j5te-8l9Zl3ZHr_2S4T-BFirKhhke2_HeS1VcD4T3HRnZXWx1dpetIc7Ft0ExiBwX0BpAU3XLSvgWPSvpyqwOlblByiZHKlhPl4-dg_dfyUneBw1snvihUNBjh_Jo6a9TH0Frivt8vYC351jfmCw5LGFEp_vw-q6-bpPegROXI7JwhDtmazfC73FNkezBmVzrRaTwqTnHyvCMSZVTXku6lSJ6b4tyCpkpXqL2J5vgfZ2Yd8IMCZBrf8H3UDDtaF4GpDrLOuXUreanOix6Ui39YiR3bux0UO-Th59hzl-Jx3cUngAXSKmfA`)
     return headers
   } 
 })

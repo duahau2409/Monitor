@@ -7,6 +7,7 @@ import SettingMaketCheckBox from './SettingMaketCheckBox'
 import SettingMaketContainerAPI from './SettingMaketContainerAPI'
 import SettingMaketContainerButton from './SettingMaketContainerButton'
 import SettingMaketOnOff from './SettingMaketOnOff'
+import Message from './Message'
 
 const SettingMaket = () => {
   return (
@@ -22,6 +23,7 @@ const SettingMaket = () => {
                     paddingTop: 42
                 }}>
                     <SettingMaketContainerInput />
+                    <Message />
                     <SettingMaketCheckBox />
                     <SettingMaketContainerAPI />
                 </View>

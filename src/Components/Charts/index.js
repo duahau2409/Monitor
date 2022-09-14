@@ -3,7 +3,7 @@ import React from 'react'
 import { VictoryAxis, VictoryChart } from 'victory-native'
 
 
-const Charts = ({ tickFormatX, ticksSize, children, tickValues }) => {
+const Charts = ({ tickFormatX, ticksSize, children, tickValues, tickFormatY = (t)=>t }) => {
   const styles = getStyles(ticksSize)
   return (
     <VictoryChart>
@@ -16,8 +16,8 @@ const Charts = ({ tickFormatX, ticksSize, children, tickValues }) => {
 
       <VictoryAxis
         dependentAxis
-        // domain={domainY}
-        offsetX={40}
+        tickFormat={tickFormatY}
+        offsetX={58}
         orientation="left"
         standalone={false}
         style={styles.axisOne}

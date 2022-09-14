@@ -1,7 +1,9 @@
 import { StyleSheet, Text, TextInput, View } from 'react-native'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { changePriceDecrease, changePriceIncrease, changeTimeDecrease, changeTimeIncrease } from '@/Store/Setting/Maket'
+import { changeDownBalance, changeDownTime, changeUpBalance, changeUpTime } from '@/Store/Setting/Maket'
+import { Controller, useForm } from 'react-hook-form'
+import { useRetrieveQuery } from '@/Services/modules/Maket'
 const nameTitles = [
     {
         name: "Thời gian tăng",
@@ -22,10 +24,22 @@ const nameTitles = [
 ]
 const SettingMaketContainerInput = () => {
     const dispatch = useDispatch()
-    // const timeIncrease = useSelector(state => state.setting.timeIncrease)
-    // const priceIncrease = useSelector(state => state.setting.priceIncrease)
-    // const timeDecrease = useSelector(state => state.setting.timeDecrease)
-    // const priceDecrease = useSelector(state => state.setting.priceDecrease)
+    const { data } = useRetrieveQuery()
+    const upTime = useSelector(state => state.settingMaket.upTime)
+    const upBalance = useSelector(state => state.settingMaket.upBalance)
+    const downTime = useSelector(state => state.settingMaket.downTime)
+    const downBalance = useSelector(state => state.settingMaket.downBalance)
+
+
+
+    const { control } = useForm({
+        defaultValues: {
+            upTime: data.data.upTime + '',
+            upBalance: data.data.upBalance + '',
+            downTime: data.data.downTime + '',
+            downBalance: data.data.downBalance + '',
+        }
+    })
     return (
         <View style={{ marginBottom: 8 }}>
             <View>
@@ -60,15 +74,23 @@ const SettingMaketContainerInput = () => {
                         justifyContent: 'center',
                         marginBottom: 10,
                     }}>
+                    {/* <Controller
+                        name="upTime"
+                        control={control}
+                        render={({  }) => ( */}
+                            {/* // field */}
                     <TextInput
                         style={{
+                            padding: 5,
                             marginLeft: 10,
                             color: '#1B1B1B',
-                            padding: 5
                         }}
-                        // value={timeIncrease}
-                        // onChangeText={text => dispatch(changeTimeIncrease(text))}
+                        value={upTime}
+                        onChangeText={text => dispatch(changeUpTime(text))}
+                    // {...field}
                     />
+                    {/* )}
+                    /> */}
                 </View>
             </View>
             <View>
@@ -110,8 +132,8 @@ const SettingMaketContainerInput = () => {
                             color: '#1B1B1B',
                             padding: 5
                         }}
-                        // value={priceIncrease}
-                        // onChangeText={text => dispatch(changePriceIncrease(text))}
+                        value={upBalance}
+                        onChangeText={text => dispatch(changeUpBalance(text))}
                     />
                 </View>
             </View>
@@ -153,8 +175,8 @@ const SettingMaketContainerInput = () => {
                             color: '#1B1B1B',
                             padding: 5
                         }}
-                        // value={timeDecrease}
-                        // onChangeText={text => dispatch(changeTimeDecrease(text))}
+                        value={downTime}
+                        onChangeText={text => dispatch(changeDownTime(text))}
                     />
                 </View>
             </View>
@@ -197,8 +219,8 @@ const SettingMaketContainerInput = () => {
                             color: '#1B1B1B',
                             padding: 5
                         }}
-                        // value={priceDecrease}
-                        // onChangeText={text => dispatch(changePriceDecrease(text))}
+                        value={downBalance}
+                        onChangeText={text => dispatch(changeDownBalance(text))}
                     />
                 </View>
             </View>
